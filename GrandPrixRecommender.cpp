@@ -1,81 +1,64 @@
-﻿// wxWidgets "Hello World" Program
-
-// For compilers that support precompilation, includes "wx/wx.h".
+﻿// For compilers that support precompilation, includes "wx/wx.h".
 #include <wx/wxprec.h>
 
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
 
-class MyApp : public wxApp
+class Application : public wxApp
 {
 public:
     virtual bool OnInit();
 };
 
-class MyFrame : public wxFrame
+class MainWindow : public wxFrame
 {
 public:
-    MyFrame();
+    MainWindow();
 
 private:
-    void OnHello(wxCommandEvent& event);
+    void OnAdd(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
-    void OnAbout(wxCommandEvent& event);
 };
 
-enum
-{
-    ID_Hello = 1
-};
+wxIMPLEMENT_APP(Application);
 
-wxIMPLEMENT_APP(MyApp);
-
-bool MyApp::OnInit()
+bool Application::OnInit()
 {
-    MyFrame* frame = new MyFrame();
+    MainWindow* frame = new MainWindow();
     frame->Show(true);
     return true;
 }
 
-MyFrame::MyFrame()
+MainWindow::MainWindow()
     : wxFrame(NULL, wxID_ANY, "Grand Prix Recommender")
 {
-    wxMenu* menuFile = new wxMenu;
-    menuFile->Append(ID_Hello, "&Hello...\tCtrl-H",
-        "Help string shown in status bar for this menu item");
-    menuFile->AppendSeparator();
-    menuFile->Append(wxID_EXIT);
-
-    wxMenu* menuHelp = new wxMenu;
-    menuHelp->Append(wxID_ABOUT);
-
+   // Create menu bar
     wxMenuBar* menuBar = new wxMenuBar;
-    menuBar->Append(menuFile, "&File");
-    menuBar->Append(menuHelp, "&Help");
 
+    // Add menus
+    wxMenu* programMenu = new wxMenu;
+    wxMenu* settingsMenu = new wxMenu;
+    
+    // Define program menu
+    programMenu->Append(wxID_ADD, "&Add", "Add new user to recommender");
+    programMenu->AppendSeparator();
+    programMenu->Append(wxID_EXIT, "&Quit", "Close program");
+
+    // Append program menu
+    menuBar->Append(programMenu, "&Program");
+
+    // Append menu bar to frame
     SetMenuBar(menuBar);
 
-    CreateStatusBar();
-    SetStatusText("Welcome to wxWidgets!");
-
-    Bind(wxEVT_MENU, &MyFrame::OnHello, this, ID_Hello);
-    Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
-    Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
+    Bind(wxEVT_MENU, &MainWindow::OnAdd, this, wxID_ADD);
+    Bind(wxEVT_MENU, &MainWindow::OnExit, this, wxID_EXIT);
 }
 
-void MyFrame::OnExit(wxCommandEvent& event)
-{
+void MainWindow::OnExit(wxCommandEvent& event){
     Close(true);
 }
 
-void MyFrame::OnAbout(wxCommandEvent& event)
-{
-    wxMessageBox("This is a wxWidgets Hello World example",
-        "About Hello World", wxOK | wxICON_INFORMATION);
-}
-
-void MyFrame::OnHello(wxCommandEvent& event)
-{
-    wxLogMessage("Hello world from wxWidgets!");
+void MainWindow::OnAdd(wxCommandEvent& event){
+    wxMessageBox("Add user clicked", "Information");
 }
