@@ -1,4 +1,8 @@
-﻿// For compilers that support precompilation, includes "wx/wx.h".
+﻿#include "GrandPrixRecommender.h"
+#include "dataInit.h"
+
+
+// For compilers that support precompilation, includes "wx/wx.h".
 #include <wx/wxprec.h>
 
 #ifndef WX_PRECOMP
@@ -27,6 +31,10 @@ bool Application::OnInit()
 {
     MainWindow* frame = new MainWindow();
     frame->Show(true);
+    DataInit data;
+    data.readCircuitCSV();
+    std::string testPark = data.getCircuits()[0].name;
+    wxMessageBox(testPark, "Information");
     return true;
 }
 

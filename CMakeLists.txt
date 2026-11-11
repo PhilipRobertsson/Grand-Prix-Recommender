@@ -21,7 +21,7 @@ find_package(wxWidgets REQUIRED COMPONENTS core base gl)
 include(${wxWidgets_USE_FILE})
 
 # Add the executable target with WIN32 option for a GUI application
-add_executable(GrandPrixRecommender WIN32 GrandPrixRecommender.cpp)
+add_executable(GrandPrixRecommender WIN32 "GrandPrixRecommender.cpp" "dataInit.h" "dataInit.cpp")
 
 # Ensure the correct subsystem is used
 set_target_properties(GrandPrixRecommender PROPERTIES
@@ -34,3 +34,10 @@ endif()
 
 # Link wxWidgets libraries
 target_link_libraries(GrandPrixRecommender ${wxWidgets_LIBRARIES})
+
+# Copy the data folder next to the executable so runtime paths resolve
+add_custom_command(TARGET GrandPrixRecommender POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_CURRENT_SOURCE_DIR}/data"
+        "$<TARGET_FILE_DIR:GrandPrixRecommender>/data"
+)
