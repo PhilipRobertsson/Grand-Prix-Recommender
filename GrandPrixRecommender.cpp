@@ -1,14 +1,6 @@
 ﻿#include "GrandPrixRecommender.h"
 #include "dataInit.h"
 
-
-// For compilers that support precompilation, includes "wx/wx.h".
-#include <wx/wxprec.h>
-
-#ifndef WX_PRECOMP
-#include <wx/wx.h>
-#endif
-
 class Application : public wxApp
 {
 public:
@@ -32,9 +24,11 @@ bool Application::OnInit()
     MainWindow* frame = new MainWindow();
     frame->Show(true);
     DataInit data;
-    data.readCircuitCSV();
-    std::string testPark = data.getCircuits()[0].name;
-    wxMessageBox(testPark, "Information");
+    data.initializeData();
+    std::string testCirc = data.getCircuits()[0].name;
+    std::string testCons = data.getConstructors()[0].name;
+    std::string testDriv = data.getDrivers()[0].forename + " " + data.getDrivers()[0].surname;
+    wxMessageBox(testCirc + "\n" + testCons + "\n" + testDriv, "Test box");
     return true;
 }
 
